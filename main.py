@@ -1,4 +1,5 @@
 import discord,os,names_generator,platform,time,shlex,subprocess,threading,datetime,asyncio,random
+from discord.ext import commands
 global CURRENT
 CURRENT=None
 CURRENTSTAMP=None
@@ -38,8 +39,6 @@ class ThreadManager:
 
 tm = ThreadManager()
 
-
-from discord.ext import commands
 intents = discord.Intents.all()
 intents.message_content = True
 
@@ -49,6 +48,7 @@ client = commands.Bot("$",intents=intents)
 async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.tree.sync()
+
 @client.tree.command(name="startsession")
 async def newsess(i:discord.Interaction,user:str=os.getlogin()):
     user_is_owner = await client.is_owner(i.user)
@@ -68,6 +68,7 @@ async def newsess(i:discord.Interaction,user:str=os.getlogin()):
             await i.followup.send(f"# Generated command 🥳\nPaste the following into your terminal:\n```\n{d}\n```\n## ⚠️ Do not send this to other people.",ephemeral=True)
     else:
         await i.response.send_message("You are not authorized!",ephemeral=True)
+
 @client.tree.command(name="currentsession")
 async def sess(i:discord.Interaction):
     user_is_owner = await client.is_owner(i.user)
@@ -83,6 +84,7 @@ async def sess(i:discord.Interaction):
             await i.followup.send(f"There is no current session.",ephemeral=True)
     else:
         await i.response.send_message("You are not authorized!",ephemeral=True)
+
 @client.tree.command(name="endsession")
 async def endsess(i:discord.Interaction):
     user_is_owner = await client.is_owner(i.user)
@@ -100,10 +102,6 @@ async def endsess(i:discord.Interaction):
             await i.followup.send(f"There is no current session.",ephemeral=True)
     else:
         await i.response.send_message("You are not authorized!",ephemeral=True)
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
     
 file_dir = os.path.dirname(os.path.abspath(__file__))
 token_file = os.path.join(file_dir, "token.txt")
