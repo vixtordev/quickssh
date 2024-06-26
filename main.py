@@ -79,7 +79,6 @@ async def sess(i:discord.Interaction):
         await asyncio.sleep(random.randint(1,2))
         if CURRENT:
             await i.followup.send(f"# `{CURRENT}`\nRunning for `{datetime.datetime.now() -CURRENTSTAMP}`\nStarted `{CURRENTSTAMP}`",ephemeral=True)
-            CURRENT = None
         else:
             await i.followup.send(f"There is no current session.",ephemeral=True)
     else:
